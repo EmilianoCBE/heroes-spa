@@ -1,8 +1,27 @@
-import React from 'react'
+import { useNavigate } from "react-router-dom"
 
 const LoginPage = () => {
+
+  const navigate = useNavigate()
+
+  const onLogin = ( ) => {
+    navigate('/', {
+      //Reemplaza el historial
+      replace: true
+    })
+  }
+
   return (
-    <h1>LoginPage</h1>
+    <div className="container mt-5">
+      <h1>Login</h1>
+      <hr />
+      <button 
+        className="btn btn-primar"
+        onClick={onLogin}  
+      >
+        Login
+      </button>
+    </div>
   )
 }
 
