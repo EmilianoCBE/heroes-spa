@@ -7,9 +7,20 @@ const initialState = {
     logged: false
 }
 
+const init = () => {
+  const user = JSON.parse(localStorage.getItem('user'))
+
+  return {
+    logged: !!user,
+    user: user
+  }
+}
+
 const AuthProvider = ({children}) => {
 
-    const [state, dispatch] = useReducer(authReducer, initialState)
+    const [state, dispatch] = useReducer(authReducer, initialState, init)
+
+  
 
     const login = (name = '') => {
       const action = {
@@ -20,13 +31,29 @@ const AuthProvider = ({children}) => {
         }
       }
 
+      localStorage.setItem('user', JSON.stringify({
+        id : 'ABC',
+        name: name
+      }))
+
+      dispatch(action)
+    }
+
+    const logout = () => {
+      localStorage.removeItem('user')
+
+      const action = {
+        type: types.logout,
+      }
+
       dispatch(action)
     }
 
   return (
     <AuthContext.Provider value={{
-      state,
-      login: login
+      ...state,
+      login: login,
+      logout: logout
     }}>
         {children}
     </AuthContext.Provider>
